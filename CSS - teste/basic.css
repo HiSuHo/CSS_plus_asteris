@@ -1,0 +1,19 @@
+body {
+    background-image: url("src/background-bonito-com-estilo-diferente-e-variante-diferente_1221760-11.avif");
+    background-size: repeat;
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.list img {
+    margin: 5px;
+    height: 200px;
+    width: 120px;
+    box-shadow: 5px;
+}

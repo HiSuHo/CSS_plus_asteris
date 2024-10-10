@@ -1,0 +1,81 @@
+.list {
+    transform-style: preserve-3d; /* Para que o movimento aconteça em 3d */
+    transform: perspective(1000px); /* O movimento no eixo Z seja de 1000px */
+}
+
+.list .item { /* CSS clássico que eu conheço */
+    transition: .5s; /* Tempo da transition acontecer */
+    filter: brightness(0); /* O brilho fica em 0, ou seja, escuro completamente */
+}
+
+.list .item:hover { /* O que acontece depois que eu passar o mouse por cima */
+    filter: brightness(1); /* O brilho passa a ser 1 ao passar o mouse por cima */
+    transform: translateZ(200px)/* Ao passar o mouse por cima, vira o card em 200px no eixo Z */
+}
+
+/* Diferença entre:
+
+.list .item:hover .item: Ao usar este código, o CSS interpreta que você está procurando pelo .item dentro do .item:hover o que eu já sei
+
+.list .item:hover + .item: Já nesta parte, CSS busca o item que está ao lado do .item:hover, ou seja, o .item.
+
+Concluindo: sem o "+" você estaria modificando o .item enquanto com o "+" o CSS busca o elemento á direita do .item:hover
+
+*/
+.list .item:hover + .item {
+    filter: brightness(0.6); /* Ao passar o mouse na card, o elemento à direita vai ter brightness 0.6 */
+    transform: translateZ(150px) rotateY(40deg); /* Mova ao eixo Z 150px e rotação no eixo Y 40° */
+}
+
+/*  Opa, opa, opa.
+    O que é isso? Além do "+", tem o "*"?
+
+    A função do "*" é buscar o item que está logo à direita do .item:hover. Um atalho, para ser mais resumido.
+    Vamos supor que você esteja fazendo o código CSS, mas não sabe qual é o elemento que vem próximo do .item:hover, então você coloca o coringa "*".
+
+    O interessante desse elemento é que você pode adicionar quantos elementos você quiser, como está no código abaixo.
+*/
+
+.list .item:hover + * + * {
+    filter: brightness(0.3);
+    transform: translateZ(70px) rotateY(30deg);
+}
+
+.list .item:hover + * + * + *{
+    filter: brightness(0.3);
+    transform: translateZ(30px) rotateY(15deg);
+}
+
+.list .item:hover + * + * + * + *{
+    filter: brightness(0.3);
+    transform: translateZ(15px);
+}
+
+/* Mas, e a das esquerdas? Como faço? 
+
+    Você precisa usar o elemento ":has" da seguinte maneira:
+    .item:has(+ *:hover)
+
+    Isso traduz para, procure o elemento em que o "+ *" tem o efeito :hover
+*/
+
+.list .item:has(+ .item:hover) {
+    filter: brightness(0.6); /* Ao passar o mouse na card, o elemento à direita vai ter brightness 0.6 */
+    transform: translateZ(150px) rotateY(-40deg); /* Mova ao eixo Z 150px e rotação no eixo Y 40° */
+}
+
+.list .item:has(+ * + *:hover) {
+    filter: brightness(0.3);
+    transform: translateZ(70px) rotateY(-30deg);
+}
+
+.list .item:has(+ * + * + *:hover){
+    filter: brightness(0.3);
+    transform: translateZ(30px) rotateY(-15deg);
+}
+
+.list .item:has( + * + * + * + *:hover){
+    filter: brightness(0.3);
+    transform: translateZ(-15px);
+}
+
